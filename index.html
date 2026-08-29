@@ -6,436 +6,265 @@
 <title>너를 알아볼 수 있게 — EONNAM HIGH SCHOOL SPECIAL ALBUM</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --navy-deep:#0f1830;
-    --navy-mid:#1c2c52;
-    --navy-soft:#2c3f6e;
-    --coral:#e88a63;
-    --peach:#f0b28e;
+    --navy-deep:#0a1224;
     --gold:#d8b374;
     --gold-soft:#e8cd9a;
+    --coral:#e88a63;
+    --peach:#f0b28e;
     --cream:#f4ecd8;
-    --vinyl:#15110f;
-    --vinyl-light:#2a221d;
-    --shadow: rgba(0,0,0,.55);
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
     min-height:100vh;
-    font-family:'Gowun Batang', serif;
-    background:
-      radial-gradient(ellipse 900px 500px at 20% 0%, rgba(232,138,99,.18), transparent 60%),
-      radial-gradient(ellipse 700px 500px at 90% 10%, rgba(216,179,116,.12), transparent 55%),
-      linear-gradient(180deg, var(--navy-deep) 0%, var(--navy-mid) 55%, var(--navy-soft) 100%);
-    color:var(--cream);
+    background: radial-gradient(ellipse 1200px 800px at 50% 20%, #1c2c52, var(--navy-deep) 75%);
     display:flex;
     align-items:center;
     justify-content:center;
-    padding:32px 16px;
+    padding:16px;
     overflow-x:hidden;
   }
 
-  .player-card{
-    width:100%;
-    max-width:440px;
-    background: linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.015));
-    border:1px solid rgba(216,179,116,.32);
-    border-radius:22px;
-    overflow:hidden;
-    box-shadow: 0 30px 70px rgba(0,0,0,.55);
-  }
-
-  /* ---------- Art / turntable area ---------- */
-  .art-stage{
+  .jacket-wrap{
     position:relative;
-    aspect-ratio: 1 / 0.98;
-    padding:28px 24px 4px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-  }
-  .platter-wrap{
-    position:absolute;
-    right:5%;
-    top:50%;
-    transform:translateY(-56%);
-    width:64%;
+    width:min(94vw, 94vh);
     aspect-ratio:1/1;
-    z-index:1;
   }
-  .vinyl{
+  .jacket-img{
     width:100%;
     height:100%;
-    border-radius:50%;
-    background:
-      repeating-radial-gradient(circle at 50% 50%,
-        var(--vinyl) 0px, var(--vinyl) 3px,
-        var(--vinyl-light) 4px, var(--vinyl) 5px);
-    box-shadow: 0 16px 46px var(--shadow), inset 0 0 32px rgba(0,0,0,.6);
-    position:relative;
-    animation: spin 3.2s linear infinite;
-    animation-play-state: paused;
-    cursor:pointer;
-  }
-  .vinyl.spinning{ animation-play-state: running; }
-  .vinyl::before{
-    content:"";
-    position:absolute; inset:0;
-    border-radius:50%;
-    background: radial-gradient(circle at 35% 30%, rgba(255,255,255,.09), transparent 45%);
-  }
-  .vinyl-label{
-    position:absolute;
-    top:50%; left:50%;
-    transform:translate(-50%,-50%);
-    width:34%; height:34%;
-    border-radius:50%;
-    background: radial-gradient(circle at 40% 35%, var(--peach), var(--coral) 70%);
-    display:flex; align-items:center; justify-content:center;
-    text-align:center;
-    padding:6%;
-    box-shadow: 0 4px 14px rgba(0,0,0,.5), inset 0 0 0 2px rgba(255,255,255,.15);
-  }
-  .vinyl-label span{
-    font-family:'Noto Sans KR', sans-serif;
-    font-weight:500;
-    font-size:.6rem;
-    line-height:1.25;
-    color:var(--navy-deep);
-  }
-  @keyframes spin{ to{ transform:rotate(360deg); } }
-
-  .tonearm{ position:absolute; inset:0; z-index:2; pointer-events:none; }
-  .tonearm .pivot{
-    position:absolute; top:3%; right:1%;
-    width:13%; aspect-ratio:1/1;
-    background: linear-gradient(160deg, var(--gold-soft), var(--gold));
-    border-radius:50%;
-    box-shadow:0 4px 10px rgba(0,0,0,.5), inset 0 0 0 2px rgba(255,255,255,.25);
-  }
-  .tonearm .arm-assembly{
-    position:absolute;
-    top:9%; right:7%;
-    width:5px;
-    height:46%;
-    transform-origin: top center;
-    transform: rotate(-52deg);
-    transition: transform .6s cubic-bezier(.4,0,.2,1);
-  }
-  .tonearm.active .arm-assembly{ transform: rotate(-16deg); }
-  .tonearm .arm{
-    position:absolute;
-    top:0; left:50%;
-    width:5px; height:100%;
-    transform:translateX(-50%);
-    background: linear-gradient(180deg, var(--gold-soft), var(--gold));
-    border-radius:4px;
-    box-shadow:0 2px 6px rgba(0,0,0,.4);
-  }
-  .tonearm .head{
-    position:absolute;
-    bottom:-8px; left:50%;
-    width:23px; height:13px;
-    transform:translateX(-50%);
-    background:var(--navy-deep);
-    border:2px solid var(--gold);
-    border-radius:2px;
-  }
-
-  .sleeve{
-    position:relative;
-    z-index:3;
-    width:68%;
-    transform: rotate(-4deg);
-    filter: drop-shadow(0 24px 34px var(--shadow));
-  }
-  .sleeve img{
-    width:100%;
     display:block;
-    border-radius:4px;
-    outline: 1px solid rgba(255,255,255,.08);
+    border-radius:6px;
+    box-shadow:0 40px 100px rgba(0,0,0,.65);
   }
   .stereo-tag{
     position:absolute;
-    top:-12px; left:-10px;
+    top:-2%; left:-2.5%;
     background:var(--cream);
     color:var(--navy-deep);
-    font-family:'Space Mono', monospace;
-    font-size:.58rem;
-    letter-spacing:.12em;
-    padding:4px 7px;
-    border-radius:2px;
+    font-family:'Courier New', monospace;
+    font-weight:700;
+    font-size:1.3vmin;
+    letter-spacing:.1em;
+    padding:.5vmin 1vmin;
+    border-radius:3px;
     transform:rotate(-6deg);
-    box-shadow:0 4px 10px rgba(0,0,0,.4);
-    z-index:4;
+    box-shadow:0 6px 14px rgba(0,0,0,.4);
+    z-index:5;
+    white-space:nowrap;
   }
 
-  /* Clickable hotspots positioned directly over the printed track list in the artwork */
-  .hotspot{
+  /* Big hero play button next to the main title */
+  .hero-play{
     position:absolute;
-    left:2%;
-    width:33%;
-    border-radius:5px;
-    cursor:pointer;
-    background:rgba(255,255,255,0);
-    transition: background .2s ease;
-    display:flex;
-    align-items:center;
-    justify-content:flex-end;
-    padding-right:4%;
-  }
-  .hotspot:hover{ background:rgba(255,255,255,.12); }
-  .hotspot.active{
-    background:rgba(232,138,99,.24);
-    box-shadow: inset 0 0 0 1px rgba(232,138,99,.55);
-  }
-  .hotspot .mini-eq{
-    display:flex; align-items:flex-end; gap:2px; height:12px;
-    opacity:0; transition:opacity .2s;
-  }
-  .hotspot.active .mini-eq{ opacity:1; }
-  .hotspot .mini-eq i{
-    width:2.5px; background:var(--peach); border-radius:1px;
-    animation: eq 0.9s ease-in-out infinite;
-  }
-  .hotspot .mini-eq i:nth-child(1){ height:40%; animation-delay:0s; }
-  .hotspot .mini-eq i:nth-child(2){ height:100%; animation-delay:.2s; }
-  .hotspot .mini-eq i:nth-child(3){ height:65%; animation-delay:.4s; }
-  @keyframes eq{ 0%,100%{ transform:scaleY(.4);} 50%{ transform:scaleY(1);} }
-
-  /* ---------- Info / player controls ---------- */
-  .info-section{
-    padding:16px 26px 24px;
-    border-top:1px solid rgba(216,179,116,.22);
-  }
-  .badge{
-    display:inline-block;
-    border:1px solid var(--gold);
-    color:var(--gold-soft);
-    font-family:'Space Mono', monospace;
-    font-size:.64rem;
-    letter-spacing:.16em;
-    padding:3px 9px;
-    border-radius:2px;
-    margin-bottom:12px;
-  }
-  .kicker{
-    font-family:'Space Mono', monospace;
-    font-size:.66rem;
-    letter-spacing:.12em;
-    color:var(--peach);
-    margin:0 0 8px;
-  }
-  .album-title{
-    font-family:'Noto Sans KR', sans-serif;
-    font-weight:300;
-    font-size:1.7rem;
-    line-height:1.3;
-    letter-spacing:-.01em;
-    margin:0 0 4px;
+    top:35%; left:88%;
+    transform:translate(-50%,-50%);
+    width:16%;
+    aspect-ratio:1/1;
+    border-radius:50%;
+    background:rgba(10,18,36,.6);
+    backdrop-filter:blur(3px);
+    border:.4vmin solid var(--gold);
     color:var(--cream);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    box-shadow:0 10px 26px rgba(0,0,0,.5);
+    transition: background .2s, transform .15s;
+    z-index:6;
   }
-  .album-sub{
-    margin:0 0 20px;
-    font-size:.76rem;
-    letter-spacing:.06em;
-    color:rgba(244,236,216,.65);
-    font-family:'Space Mono', monospace;
+  .hero-play:hover{ background:rgba(232,138,99,.55); }
+  .hero-play:active{ transform:translate(-50%,-50%) scale(.93); }
+  .hero-play svg{ width:44%; height:44%; }
+  .hero-play.playing{ animation: pulse-ring 1.7s ease-out infinite; }
+  @keyframes pulse-ring{
+    0%{ box-shadow:0 0 0 0 rgba(216,179,116,.6), 0 10px 26px rgba(0,0,0,.5); }
+    100%{ box-shadow:0 0 0 22px rgba(216,179,116,0), 0 10px 26px rgba(0,0,0,.5); }
   }
 
-  .now-playing{
+  /* Track buttons placed precisely beside the last character of each printed title */
+  .track-btn{
+    position:absolute;
+    transform:translate(-50%,-50%);
+    width:7.6%;
+    aspect-ratio:1/1;
+    border-radius:50%;
+    background:rgba(10,18,36,.62);
+    border:.26vmin solid var(--gold-soft);
+    color:var(--cream);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    box-shadow:0 6px 16px rgba(0,0,0,.45);
+    transition: background .2s, transform .15s;
+    z-index:6;
+  }
+  .track-btn:hover{ background:rgba(232,138,99,.55); }
+  .track-btn.active{ background:rgba(232,138,99,.8); border-color:var(--coral); }
+  .track-btn svg{ width:42%; height:42%; }
+  .track-btn:active{ transform:translate(-50%,-50%) scale(.9); }
+
+  /* Now Playing + transport controls, combined into one widget, bottom-right */
+  .now-playing-widget{
+    position:absolute;
+    right:3%; bottom:3.5%;
+    width:44%;
+    background:rgba(10,18,36,.74);
+    backdrop-filter:blur(5px);
+    border:1px solid rgba(216,179,116,.38);
+    border-radius:1.4vmin;
+    padding:2% 3%;
+    z-index:7;
+  }
+  .np-row{
     display:flex;
     align-items:baseline;
-    gap:10px;
-    padding:12px 0;
-    border-top:1px solid rgba(216,179,116,.25);
-    border-bottom:1px solid rgba(216,179,116,.25);
-    margin-bottom:18px;
+    gap:1.4%;
+    margin-bottom:1.6%;
+    white-space:nowrap;
   }
   .np-label{
     font-family:'Space Mono', monospace;
-    font-size:.62rem;
+    font-size:1.15vmin;
     letter-spacing:.14em;
-    color:rgba(244,236,216,.5);
+    color:var(--peach);
     flex-shrink:0;
   }
   .np-name{
-    font-size:1rem;
+    font-family:'Noto Sans KR', sans-serif;
+    font-size:1.7vmin;
     color:var(--cream);
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
   }
-
-  .transport{
+  .transport-row{
     display:flex;
     align-items:center;
-    gap:12px;
+    gap:2.2%;
   }
-  .tbtn{
-    background:none;
-    border:1px solid rgba(216,179,116,.4);
-    color:var(--cream);
-    width:36px; height:36px;
+  .tbtn-mini{
+    width:9%;
+    aspect-ratio:1/1;
     border-radius:50%;
-    cursor:pointer;
+    border:.18vmin solid rgba(216,179,116,.55);
+    background:transparent;
+    color:var(--cream);
     display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
     flex-shrink:0;
     transition: background .2s, transform .15s;
   }
-  .tbtn:hover{ background:rgba(216,179,116,.15); }
-  .tbtn:active{ transform:scale(.92); }
-  #playBtn{
-    width:44px; height:44px;
+  .tbtn-mini:hover{ background:rgba(216,179,116,.18); }
+  .tbtn-mini:active{ transform:scale(.9); }
+  .tbtn-mini svg{ width:48%; height:48%; }
+  .play-mini{
+    width:13%;
     background:linear-gradient(160deg, var(--peach), var(--coral));
-    color:var(--navy-deep);
     border:none;
+    color:var(--navy-deep);
   }
-  .progress-area{ flex:1; min-width:0; }
-  .progress-bar{
+  .progress-wrap{ flex:1; min-width:0; }
+  .progress-track{
     width:100%;
-    height:5px;
-    background:rgba(244,236,216,.18);
-    border-radius:3px;
-    cursor:pointer;
+    height:.65vmin;
+    background:rgba(244,236,216,.25);
+    border-radius:4px;
     position:relative;
-    margin-bottom:6px;
+    cursor:pointer;
   }
-  .progress-fill{
+  .progress-fill-mini{
     position:absolute; left:0; top:0; height:100%;
     width:0%;
     background:linear-gradient(90deg, var(--gold), var(--coral));
-    border-radius:3px;
+    border-radius:4px;
   }
-  .time-row{
+  .time-row-mini{
     display:flex; justify-content:space-between;
+    margin-top:.9vmin;
     font-family:'Space Mono', monospace;
-    font-size:.66rem;
-    color:rgba(244,236,216,.55);
+    font-size:1vmin;
+    color:rgba(244,236,216,.6);
   }
 
-  .footer{
-    margin-top:20px;
-    padding-top:14px;
-    border-top:1px solid rgba(216,179,116,.2);
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:12px;
-  }
-  .barcode{ display:flex; gap:2px; height:20px; align-items:flex-end; }
-  .barcode i{ width:2px; background:var(--cream); opacity:.7; }
-  .footer-text{
-    font-family:'Space Mono', monospace;
-    font-size:.6rem;
-    letter-spacing:.08em;
-    color:rgba(244,236,216,.55);
-    text-align:right;
-  }
-
-  @media (max-width: 380px){
-    .album-title{ font-size:1.45rem; }
-    .info-section{ padding:14px 18px 20px; }
-    .art-stage{ padding:22px 16px 4px; }
+  @media (max-width: 480px){
+    .now-playing-widget{ width:48%; padding:1.8% 2.6%; }
+    .np-label{ font-size:1.35vmin; }
+    .np-name{ font-size:2vmin; }
+    .time-row-mini{ font-size:1.2vmin; }
   }
 </style>
 </head>
 <body>
 
-<div class="player-card">
+<div class="jacket-wrap">
+  <img class="jacket-img" src="jacket.png" alt="너를 알아볼 수 있게 앨범 재킷">
+  <div class="stereo-tag">STEREO · 2026</div>
 
-  <div class="art-stage">
-    <div class="platter-wrap">
-      <div class="vinyl" id="vinyl">
-        <div class="vinyl-label"><span>너를 알아볼<br>수 있게</span></div>
-      </div>
-      <div class="tonearm" id="tonearm">
-        <div class="pivot"></div>
-        <div class="arm-assembly">
-          <div class="arm"></div>
-          <div class="head"></div>
-        </div>
-      </div>
-    </div>
-    <div class="sleeve">
-      <div class="stereo-tag">STEREO · 2026</div>
-      <img src="jacket.png" alt="너를 알아볼 수 있게 앨범 재킷 — 트랙 01부터 04까지 인쇄된 트랙리스트">
+  <button class="hero-play" id="heroPlay" aria-label="재생/일시정지">
+    <svg class="ic-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+    <svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+  </button>
 
-      <!-- Clickable hotspots placed directly over the printed track list in the artwork -->
-      <div class="hotspot" data-src="track01.mp3" data-name="01. 너를 알아볼 수 있게" style="top:57.5%; height:12%;">
-        <span class="mini-eq"><i></i><i></i><i></i></span>
-      </div>
-      <div class="hotspot" data-src="track02.mp3" data-name="02. 3악 캠페인송" style="top:69.5%; height:11%;">
-        <span class="mini-eq"><i></i><i></i><i></i></span>
-      </div>
-      <div class="hotspot" data-src="track03.mp3" data-name="03. 3착 캠페인송" style="top:80.5%; height:10%;">
-        <span class="mini-eq"><i></i><i></i><i></i></span>
-      </div>
-      <div class="hotspot" data-src="track04.mp3" data-name="04. 졸업 안했다아이가" style="top:90.5%; height:9%;">
-        <span class="mini-eq"><i></i><i></i><i></i></span>
-      </div>
-    </div>
-  </div>
+  <button class="track-btn" data-src="track01.mp3" data-name="01. 너를 알아볼 수 있게" style="left:32.6%; top:63.9%;" aria-label="01. 너를 알아볼 수 있게 재생">
+    <svg class="ic-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+    <svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+  </button>
+  <button class="track-btn" data-src="track02.mp3" data-name="02. 3악 캠페인송" style="left:27.1%; top:74.3%;" aria-label="02. 3악 캠페인송 재생">
+    <svg class="ic-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+    <svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+  </button>
+  <button class="track-btn" data-src="track03.mp3" data-name="03. 3착 캠페인송" style="left:28.0%; top:83.1%;" aria-label="03. 3착 캠페인송 재생">
+    <svg class="ic-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+    <svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+  </button>
+  <button class="track-btn" data-src="track04.mp3" data-name="04. 졸업 안했다아이가" style="left:33.5%; top:91.8%;" aria-label="04. 졸업 안했다아이가 재생">
+    <svg class="ic-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+    <svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+  </button>
 
-  <div class="info-section">
-    <div class="badge">MINI ALBUM</div>
-    <p class="kicker">2026 학생생활지도 강화주간 · SPECIAL ALBUM</p>
-    <h1 class="album-title">너를 알아볼 수 있게</h1>
-    <p class="album-sub">EONNAM HIGH SCHOOL</p>
-
-    <div class="now-playing">
+  <div class="now-playing-widget">
+    <div class="np-row">
       <span class="np-label">NOW PLAYING</span>
-      <span class="np-name" id="npName">재킷의 트랙 제목을 눌러보세요</span>
+      <span class="np-name" id="npName">트랙을 선택하세요</span>
     </div>
-
-    <div class="transport">
-      <button class="tbtn" id="prevBtn" title="이전 곡" aria-label="이전 곡">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 10.5 6V6z"/></svg>
+    <div class="transport-row">
+      <button class="tbtn-mini" id="prevBtn" aria-label="이전 곡">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 10.5 6V6z"/></svg>
       </button>
-      <button class="tbtn" id="playBtn" title="재생/일시정지" aria-label="재생/일시정지">
-        <svg id="playIcon" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        <svg id="pauseIcon" width="15" height="15" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+      <button class="tbtn-mini play-mini" id="miniPlay" aria-label="재생/일시정지">
+        <svg class="ic-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        <svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
       </button>
-      <button class="tbtn" id="nextBtn" title="다음 곡" aria-label="다음 곡">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M16 18h2V6h-2zM14.5 12 4 6v12z"/></svg>
+      <button class="tbtn-mini" id="nextBtn" aria-label="다음 곡">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 18h2V6h-2zM14.5 12 4 6v12z"/></svg>
       </button>
-      <div class="progress-area">
-        <div class="progress-bar" id="progressBar">
-          <div class="progress-fill" id="progressFill"></div>
+      <div class="progress-wrap">
+        <div class="progress-track" id="progressBar">
+          <div class="progress-fill-mini" id="progressFill"></div>
         </div>
-        <div class="time-row">
+        <div class="time-row-mini">
           <span id="curTime">0:00</span>
           <span id="durTime">0:00</span>
         </div>
       </div>
     </div>
-
-    <div class="footer">
-      <div class="barcode" id="barcode"></div>
-      <div class="footer-text">EONNAM HIGH SCHOOL<br>2026</div>
-    </div>
   </div>
-
 </div>
 
 <audio id="audio" preload="metadata"></audio>
 
 <script>
-  const hotspots = Array.from(document.querySelectorAll('.hotspot'));
+  const trackBtns = Array.from(document.querySelectorAll('.track-btn'));
+  const heroPlay = document.getElementById('heroPlay');
+  const miniPlay = document.getElementById('miniPlay');
+  const npName = document.getElementById('npName');
   const audio = document.getElementById('audio');
-  const vinyl = document.getElementById('vinyl');
-  const tonearm = document.getElementById('tonearm');
-  const playBtn = document.getElementById('playBtn');
-  const playIcon = document.getElementById('playIcon');
-  const pauseIcon = document.getElementById('pauseIcon');
   const progressBar = document.getElementById('progressBar');
   const progressFill = document.getElementById('progressFill');
   const curTimeEl = document.getElementById('curTime');
   const durTimeEl = document.getElementById('durTime');
-  const npName = document.getElementById('npName');
 
   let currentIndex = -1;
 
@@ -446,18 +275,29 @@
     return `${m}:${s}`;
   }
 
-  function setActive(index){
-    hotspots.forEach((h,i)=> h.classList.toggle('active', i===index));
+  function setIcon(btn, playing){
+    btn.querySelector('.ic-play').style.display = playing ? 'none' : '';
+    btn.querySelector('.ic-pause').style.display = playing ? '' : 'none';
+  }
+
+  function refreshIcons(){
+    const playing = currentIndex !== -1 && !audio.paused;
+    trackBtns.forEach((b,i)=>{
+      const isActive = i === currentIndex;
+      b.classList.toggle('active', isActive);
+      setIcon(b, isActive && playing);
+    });
+    setIcon(heroPlay, playing);
+    setIcon(miniPlay, playing);
+    heroPlay.classList.toggle('playing', playing);
   }
 
   function loadTrack(index, autoplay){
     currentIndex = index;
-    audio.src = hotspots[index].dataset.src;
-    npName.textContent = hotspots[index].dataset.name;
-    setActive(index);
-    if(autoplay){
-      audio.play().catch(()=>{});
-    }
+    audio.src = trackBtns[index].dataset.src;
+    npName.textContent = trackBtns[index].dataset.name;
+    if(autoplay){ audio.play().catch(()=>{}); }
+    refreshIcons();
   }
 
   function playPause(){
@@ -465,47 +305,31 @@
       loadTrack(0, true);
       return;
     }
-    if(audio.paused){
-      audio.play().catch(()=>{});
-    } else {
-      audio.pause();
-    }
+    if(audio.paused){ audio.play().catch(()=>{}); }
+    else { audio.pause(); }
   }
 
-  hotspots.forEach((spot, i)=>{
-    spot.addEventListener('click', ()=>{
-      if(i === currentIndex){
-        playPause();
-      } else {
-        loadTrack(i, true);
-      }
+  trackBtns.forEach((btn, i)=>{
+    btn.addEventListener('click', ()=>{
+      if(i === currentIndex){ playPause(); }
+      else { loadTrack(i, true); }
     });
   });
 
-  playBtn.addEventListener('click', playPause);
-  vinyl.addEventListener('click', playPause);
+  heroPlay.addEventListener('click', playPause);
+  miniPlay.addEventListener('click', playPause);
 
   document.getElementById('prevBtn').addEventListener('click', ()=>{
-    const i = currentIndex <= 0 ? hotspots.length-1 : currentIndex-1;
+    const i = currentIndex <= 0 ? trackBtns.length-1 : currentIndex-1;
     loadTrack(i, true);
   });
   document.getElementById('nextBtn').addEventListener('click', ()=>{
-    const i = currentIndex >= hotspots.length-1 ? 0 : currentIndex+1;
+    const i = currentIndex >= trackBtns.length-1 ? 0 : currentIndex+1;
     loadTrack(i, true);
   });
 
-  audio.addEventListener('play', ()=>{
-    vinyl.classList.add('spinning');
-    tonearm.classList.add('active');
-    playIcon.style.display = 'none';
-    pauseIcon.style.display = '';
-  });
-  audio.addEventListener('pause', ()=>{
-    vinyl.classList.remove('spinning');
-    tonearm.classList.remove('active');
-    playIcon.style.display = '';
-    pauseIcon.style.display = 'none';
-  });
+  audio.addEventListener('play', refreshIcons);
+  audio.addEventListener('pause', refreshIcons);
   audio.addEventListener('timeupdate', ()=>{
     const pct = audio.duration ? (audio.currentTime/audio.duration)*100 : 0;
     progressFill.style.width = pct + '%';
@@ -515,12 +339,9 @@
     durTimeEl.textContent = fmtTime(audio.duration);
   });
   audio.addEventListener('ended', ()=>{
-    const i = currentIndex >= hotspots.length-1 ? 0 : currentIndex+1;
-    if(i === 0){
-      loadTrack(0, false);
-    } else {
-      loadTrack(i, true);
-    }
+    const i = currentIndex >= trackBtns.length-1 ? 0 : currentIndex+1;
+    if(i === 0){ loadTrack(0, false); }
+    else { loadTrack(i, true); }
   });
 
   progressBar.addEventListener('click', (e)=>{
@@ -529,15 +350,6 @@
     const pct = (e.clientX - rect.left) / rect.width;
     audio.currentTime = pct * audio.duration;
   });
-
-  const barcode = document.getElementById('barcode');
-  for(let i=0;i<24;i++){
-    const bar = document.createElement('i');
-    const w = Math.random() > .7 ? 3 : 1.5;
-    bar.style.width = w + 'px';
-    bar.style.height = (Math.random()*9+11) + 'px';
-    barcode.appendChild(bar);
-  }
 </script>
 
 </body>
