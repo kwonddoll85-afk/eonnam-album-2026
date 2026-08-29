@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>너를 알아볼 수 있게 — EONNAM HIGH SCHOOL SPECIAL ALBUM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Gowun+Batang:wght@400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-deep:#0f1830;
+    --navy-mid:#1c2c52;
+    --navy-soft:#2c3f6e;
+    --coral:#e88a63;
+    --peach:#f0b28e;
+    --gold:#d8b374;
+    --gold-soft:#e8cd9a;
+    --cream:#f4ecd8;
+    --vinyl:#15110f;
+    --vinyl-light:#2a221d;
+    --wood-1:#4a3121;
+    --wood-2:#5f3f27;
+    --wood-3:#3a2618;
+    --shadow: rgba(0,0,0,.55);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;height:100%;}
+  body{
+    min-height:100vh;
+    font-family:'Gowun Batang', serif;
+    background:
+      radial-gradient(ellipse 900px 500px at 20% 0%, rgba(232,138,99,.18), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 90% 10%, rgba(216,179,116,.12), transparent 55%),
+      linear-gradient(180deg, var(--navy-deep) 0%, var(--navy-mid) 55%, var(--navy-soft) 100%);
+    color:var(--cream);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:48px 20px;
+    overflow-x:hidden;
+  }
+  .stage{
+    width:100%;
+    max-width:1080px;
+    display:grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap:56px;
+    align-items:center;
+  }
+
+  /* ---------- Turntable scene ---------- */
+  .scene{
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:460px;
+  }
+  .platter-wrap{
+    position:absolute;
+    right:6%;
+    top:50%;
+    transform:translateY(-50%);
+    width:78%;
+    aspect-ratio:1/1;
+    z-index:1;
+  }
+  .vinyl{
+    width:100%;
+    height:100%;
+    border-radius:50%;
+    background:
+      repeating-radial-gradient(circle at 50% 50%,
+        var(--vinyl) 0px, var(--vinyl) 3px,
+        var(--vinyl-light) 4px, var(--vinyl) 5px);
+    box-shadow: 0 20px 60px var(--shadow), inset 0 0 40px rgba(0,0,0,.6);
+    position:relative;
+    animation: spin 3.2s linear infinite;
+    animation-play-state: paused;
+    cursor:pointer;
+  }
+  .vinyl.spinning{ animation-play-state: running; }
+  .vinyl::before{
+    content:"";
+    position:absolute; inset:0;
+    border-radius:50%;
+    background: radial-gradient(circle at 35% 30%, rgba(255,255,255,.09), transparent 45%);
+  }
+  .vinyl-label{
+    position:absolute;
+    top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    width:34%; height:34%;
+    border-radius:50%;
+    background: radial-gradient(circle at 40% 35%, var(--peach), var(--coral) 70%);
+    display:flex; align-items:center; justify-content:center;
+    text-align:center;
+    padding:6%;
+    box-shadow: 0 4px 14px rgba(0,0,0,.5), inset 0 0 0 2px rgba(255,255,255,.15);
+  }
+  .vinyl-label span{
+    font-family:'Black Han Sans', sans-serif;
+    font-size:.68rem;
+    line-height:1.25;
+    color:var(--navy-deep);
+    letter-spacing:.02em;
+  }
+  .vinyl-label::after{
+    content:"";
+    position:absolute; width:8px; height:8px; border-radius:50%;
+    background:var(--navy-deep);
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+
+  .tonearm{
+    position:absolute;
+    inset:0;
+    z-index:2;
+    pointer-events:none;
+  }
+  .tonearm .pivot{
+    position:absolute; top:3%; right:1%;
+    width:13%; aspect-ratio:1/1;
+    background: linear-gradient(160deg, var(--gold-soft), var(--gold));
+    border-radius:50%;
+    box-shadow:0 4px 10px rgba(0,0,0,.5), inset 0 0 0 2px rgba(255,255,255,.25);
+  }
+  .tonearm .arm-assembly{
+    position:absolute;
+    top:9%; right:7%;
+    width:5px;
+    height:46%;
+    transform-origin: top center;
+    transform: rotate(-52deg);
+    transition: transform .6s cubic-bezier(.4,0,.2,1);
+  }
+  .tonearm.active .arm-assembly{ transform: rotate(-16deg); }
+  .tonearm .arm{
+    position:absolute;
+    top:0; left:50%;
+    width:5px; height:100%;
+    transform:translateX(-50%);
+    background: linear-gradient(180deg, var(--gold-soft), var(--gold));
+    border-radius:4px;
+    box-shadow:0 2px 6px rgba(0,0,0,.4);
+  }
+  .tonearm .head{
+    position:absolute;
+    bottom:-8px; left:50%;
+    width:23px; height:13px;
+    transform:translateX(-50%);
+    background:var(--navy-deep);
+    border:2px solid var(--gold);
+    border-radius:2px;
+  }
+
+  .sleeve{
+    position:relative;
+    z-index:3;
+    width:72%;
+    transform: rotate(-4deg);
+    filter: drop-shadow(0 30px 40px var(--shadow));
+  }
+  .sleeve img{
+    width:100%;
+    display:block;
+    border-radius:4px;
+    outline: 1px solid rgba(255,255,255,.08);
+  }
+  .stereo-tag{
+    position:absolute;
+    top:-14px; left:-14px;
+    background:var(--cream);
+    color:var(--navy-deep);
+    font-family:'Space Mono', monospace;
+    font-size:.62rem;
+    letter-spacing:.12em;
+    padding:4px 8px;
+    border-radius:2px;
+    transform:rotate(-6deg);
+    box-shadow:0 4px 10px rgba(0,0,0,.4);
+  }
+
+  /* ---------- Player panel ---------- */
+  .panel{
+    position:relative;
+    background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+    border:1px solid rgba(216,179,116,.3);
+    border-radius:14px;
+    padding:34px 32px 26px;
+    backdrop-filter: blur(6px);
+  }
+  .badge{
+    position:absolute;
+    top:22px; right:24px;
+    border:1px solid var(--gold);
+    color:var(--gold-soft);
+    font-family:'Space Mono', monospace;
+    font-size:.68rem;
+    letter-spacing:.18em;
+    padding:4px 10px;
+    border-radius:2px;
+  }
+  .kicker{
+    font-family:'Space Mono', monospace;
+    font-size:.7rem;
+    letter-spacing:.14em;
+    color:var(--peach);
+    margin:0 0 10px;
+  }
+  .album-title{
+    font-family:'Black Han Sans', sans-serif;
+    font-size:2.15rem;
+    line-height:1.25;
+    margin:0 0 6px;
+    color:var(--cream);
+    text-shadow:0 2px 12px rgba(216,179,116,.25);
+  }
+  .album-sub{
+    margin:0 0 26px;
+    font-size:.82rem;
+    letter-spacing:.06em;
+    color:rgba(244,236,216,.65);
+    font-family:'Space Mono', monospace;
+  }
+
+  .tracklist{
+    list-style:none;
+    margin:0 0 24px;
+    padding:0;
+    border-top:1px solid rgba(216,179,116,.25);
+  }
+  .track{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:13px 4px;
+    border-bottom:1px solid rgba(216,179,116,.16);
+    cursor:pointer;
+    transition: background .2s ease, padding-left .2s ease;
+  }
+  .track:hover{ background:rgba(216,179,116,.07); padding-left:8px; }
+  .track.active{ background:rgba(232,138,99,.12); padding-left:8px; }
+  .track .num{
+    font-family:'Black Han Sans', sans-serif;
+    color:var(--gold);
+    font-size:1rem;
+    width:24px;
+    flex-shrink:0;
+  }
+  .track.active .num{ color:var(--coral); }
+  .track .info{ flex:1; min-width:0; }
+  .track .name{
+    font-size:.98rem;
+    color:var(--cream);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .track .dur{
+    font-family:'Space Mono', monospace;
+    font-size:.72rem;
+    color:rgba(244,236,216,.5);
+    flex-shrink:0;
+  }
+  .track .eq{
+    width:16px; height:14px; flex-shrink:0;
+    display:flex; align-items:flex-end; gap:2px;
+  }
+  .track .eq i{
+    width:3px; background:var(--coral); border-radius:1px;
+    animation: eq 0.9s ease-in-out infinite;
+    opacity:0;
+  }
+  .track.active .eq i{ opacity:1; }
+  .track .eq i:nth-child(1){ height:40%; animation-delay:0s; }
+  .track .eq i:nth-child(2){ height:100%; animation-delay:.2s; }
+  .track .eq i:nth-child(3){ height:65%; animation-delay:.4s; }
+  @keyframes eq{ 0%,100%{ transform:scaleY(.4);} 50%{ transform:scaleY(1);} }
+
+  .transport{
+    display:flex;
+    align-items:center;
+    gap:14px;
+  }
+  .tbtn{
+    background:none;
+    border:1px solid rgba(216,179,116,.4);
+    color:var(--cream);
+    width:38px; height:38px;
+    border-radius:50%;
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    transition: background .2s, transform .15s;
+  }
+  .tbtn:hover{ background:rgba(216,179,116,.15); }
+  .tbtn:active{ transform:scale(.92); }
+  #playBtn{
+    width:46px; height:46px;
+    background:linear-gradient(160deg, var(--peach), var(--coral));
+    color:var(--navy-deep);
+    border:none;
+  }
+  .progress-area{ flex:1; min-width:0; }
+  .progress-bar{
+    width:100%;
+    height:5px;
+    background:rgba(244,236,216,.18);
+    border-radius:3px;
+    cursor:pointer;
+    position:relative;
+    margin-bottom:6px;
+  }
+  .progress-fill{
+    position:absolute; left:0; top:0; height:100%;
+    width:0%;
+    background:linear-gradient(90deg, var(--gold), var(--coral));
+    border-radius:3px;
+  }
+  .time-row{
+    display:flex; justify-content:space-between;
+    font-family:'Space Mono', monospace;
+    font-size:.68rem;
+    color:rgba(244,236,216,.55);
+  }
+
+  .footer{
+    margin-top:24px;
+    padding-top:16px;
+    border-top:1px solid rgba(216,179,116,.2);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+  }
+  .barcode{
+    display:flex; gap:2px; height:22px; align-items:flex-end;
+  }
+  .barcode i{ width:2px; background:var(--cream); opacity:.7; }
+  .footer-text{
+    font-family:'Space Mono', monospace;
+    font-size:.62rem;
+    letter-spacing:.08em;
+    color:rgba(244,236,216,.55);
+    text-align:right;
+  }
+
+  @media (max-width: 860px){
+    .stage{ grid-template-columns:1fr; gap:40px; }
+    .scene{ min-height:340px; }
+    .sleeve{ width:66%; }
+    .album-title{ font-size:1.7rem; }
+    .badge{ position:static; display:inline-block; margin-bottom:16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stage">
+
+  <div class="scene">
+    <div class="platter-wrap">
+      <div class="vinyl" id="vinyl">
+        <div class="vinyl-label"><span>너를 알아볼<br>수 있게</span></div>
+      </div>
+      <div class="tonearm" id="tonearm">
+        <div class="pivot"></div>
+        <div class="arm-assembly">
+          <div class="arm"></div>
+          <div class="head"></div>
+        </div>
+      </div>
+    </div>
+    <div class="sleeve">
+      <div class="stereo-tag">STEREO · 2026</div>
+      <img src="jacket.png" alt="너를 알아볼 수 있게 앨범 재킷">
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="badge">MINI ALBUM</div>
+    <p class="kicker">2026 학생생활지도 강화주간 · SPECIAL ALBUM</p>
+    <h1 class="album-title">너를 알아볼 수 있게</h1>
+    <p class="album-sub">EONNAM HIGH SCHOOL</p>
+
+    <ul class="tracklist" id="tracklist">
+      <li class="track" data-src="track01.mp3">
+        <span class="num">01</span>
+        <span class="info"><span class="name">너를 알아볼 수 있게</span></span>
+        <span class="eq"><i></i><i></i><i></i></span>
+        <span class="dur">--:--</span>
+      </li>
+      <li class="track" data-src="track02.mp3">
+        <span class="num">02</span>
+        <span class="info"><span class="name">3악 캠페인송</span></span>
+        <span class="eq"><i></i><i></i><i></i></span>
+        <span class="dur">--:--</span>
+      </li>
+      <li class="track" data-src="track03.mp3">
+        <span class="num">03</span>
+        <span class="info"><span class="name">3착 캠페인송</span></span>
+        <span class="eq"><i></i><i></i><i></i></span>
+        <span class="dur">--:--</span>
+      </li>
+      <li class="track" data-src="track04.mp3">
+        <span class="num">04</span>
+        <span class="info"><span class="name">졸업 안했다아이가</span></span>
+        <span class="eq"><i></i><i></i><i></i></span>
+        <span class="dur">--:--</span>
+      </li>
+    </ul>
+
+    <div class="transport">
+      <button class="tbtn" id="prevBtn" title="이전 곡" aria-label="이전 곡">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 10.5 6V6z"/></svg>
+      </button>
+      <button class="tbtn" id="playBtn" title="재생/일시정지" aria-label="재생/일시정지">
+        <svg id="playIcon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        <svg id="pauseIcon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+      </button>
+      <button class="tbtn" id="nextBtn" title="다음 곡" aria-label="다음 곡">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 18h2V6h-2zM14.5 12 4 6v12z"/></svg>
+      </button>
+      <div class="progress-area">
+        <div class="progress-bar" id="progressBar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="time-row">
+          <span id="curTime">0:00</span>
+          <span id="durTime">0:00</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="barcode" id="barcode"></div>
+      <div class="footer-text">EONNAM HIGH SCHOOL<br>2026</div>
+    </div>
+  </div>
+
+</div>
+
+<audio id="audio" preload="metadata"></audio>
+
+<script>
+  const tracks = Array.from(document.querySelectorAll('.track'));
+  const audio = document.getElementById('audio');
+  const vinyl = document.getElementById('vinyl');
+  const tonearm = document.getElementById('tonearm');
+  const playBtn = document.getElementById('playBtn');
+  const playIcon = document.getElementById('playIcon');
+  const pauseIcon = document.getElementById('pauseIcon');
+  const progressBar = document.getElementById('progressBar');
+  const progressFill = document.getElementById('progressFill');
+  const curTimeEl = document.getElementById('curTime');
+  const durTimeEl = document.getElementById('durTime');
+
+  let currentIndex = -1;
+
+  function fmtTime(sec){
+    if(!isFinite(sec) || sec < 0) return '0:00';
+    const m = Math.floor(sec/60);
+    const s = Math.floor(sec%60).toString().padStart(2,'0');
+    return `${m}:${s}`;
+  }
+
+  function setActiveTrack(index){
+    tracks.forEach((t,i)=> t.classList.toggle('active', i===index));
+  }
+
+  function loadTrack(index, autoplay){
+    currentIndex = index;
+    audio.src = tracks[index].dataset.src;
+    setActiveTrack(index);
+    if(autoplay){
+      audio.play().catch(()=>{});
+    }
+  }
+
+  function playPause(){
+    if(currentIndex === -1){
+      loadTrack(0, true);
+      return;
+    }
+    if(audio.paused){
+      audio.play().catch(()=>{});
+    } else {
+      audio.pause();
+    }
+  }
+
+  tracks.forEach((track, i)=>{
+    track.addEventListener('click', ()=>{
+      if(i === currentIndex){
+        playPause();
+      } else {
+        loadTrack(i, true);
+      }
+    });
+  });
+
+  playBtn.addEventListener('click', playPause);
+  vinyl.addEventListener('click', playPause);
+
+  document.getElementById('prevBtn').addEventListener('click', ()=>{
+    const i = currentIndex <= 0 ? tracks.length-1 : currentIndex-1;
+    loadTrack(i, true);
+  });
+  document.getElementById('nextBtn').addEventListener('click', ()=>{
+    const i = currentIndex >= tracks.length-1 ? 0 : currentIndex+1;
+    loadTrack(i, true);
+  });
+
+  audio.addEventListener('play', ()=>{
+    vinyl.classList.add('spinning');
+    tonearm.classList.add('active');
+    playIcon.style.display = 'none';
+    pauseIcon.style.display = '';
+  });
+  audio.addEventListener('pause', ()=>{
+    vinyl.classList.remove('spinning');
+    tonearm.classList.remove('active');
+    playIcon.style.display = '';
+    pauseIcon.style.display = 'none';
+  });
+  audio.addEventListener('timeupdate', ()=>{
+    const pct = audio.duration ? (audio.currentTime/audio.duration)*100 : 0;
+    progressFill.style.width = pct + '%';
+    curTimeEl.textContent = fmtTime(audio.currentTime);
+  });
+  audio.addEventListener('loadedmetadata', ()=>{
+    durTimeEl.textContent = fmtTime(audio.duration);
+    if(currentIndex > -1){
+      tracks[currentIndex].querySelector('.dur').textContent = fmtTime(audio.duration);
+    }
+  });
+  audio.addEventListener('ended', ()=>{
+    const i = currentIndex >= tracks.length-1 ? 0 : currentIndex+1;
+    if(i === 0){
+      // reached end of album
+      loadTrack(0, false);
+    } else {
+      loadTrack(i, true);
+    }
+  });
+
+  progressBar.addEventListener('click', (e)=>{
+    if(!audio.duration) return;
+    const rect = progressBar.getBoundingClientRect();
+    const pct = (e.clientX - rect.left) / rect.width;
+    audio.currentTime = pct * audio.duration;
+  });
+
+  // Preload durations for track list display without switching current src
+  tracks.forEach((track)=>{
+    const probe = new Audio();
+    probe.preload = 'metadata';
+    probe.src = track.dataset.src;
+    probe.addEventListener('loadedmetadata', ()=>{
+      track.querySelector('.dur').textContent = fmtTime(probe.duration);
+    });
+  });
+
+  // decorative barcode
+  const barcode = document.getElementById('barcode');
+  for(let i=0;i<26;i++){
+    const bar = document.createElement('i');
+    const w = Math.random() > .7 ? 3 : 1.5;
+    bar.style.width = w + 'px';
+    bar.style.height = (Math.random()*10+12) + 'px';
+    barcode.appendChild(bar);
+  }
+</script>
+
+</body>
+</html>
