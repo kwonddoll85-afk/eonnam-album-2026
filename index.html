@@ -19,9 +19,6 @@
     --cream:#f4ecd8;
     --vinyl:#15110f;
     --vinyl-light:#2a221d;
-    --wood-1:#4a3121;
-    --wood-2:#5f3f27;
-    --wood-3:#3a2618;
     --shadow: rgba(0,0,0,.55);
   }
   *{box-sizing:border-box;}
@@ -37,32 +34,36 @@
     display:flex;
     align-items:center;
     justify-content:center;
-    padding:32px 20px;
+    padding:32px 16px;
     overflow-x:hidden;
   }
-  .stage{
+
+  /* ---------- One unified card ---------- */
+  .player-card{
     width:100%;
-    max-width:1080px;
-    display:grid;
-    grid-template-columns: 1.05fr 1fr;
-    gap:32px;
-    align-items:center;
+    max-width:440px;
+    background: linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.015));
+    border:1px solid rgba(216,179,116,.32);
+    border-radius:22px;
+    overflow:hidden;
+    box-shadow: 0 30px 70px rgba(0,0,0,.55);
   }
 
-  /* ---------- Turntable scene ---------- */
-  .scene{
+  /* ---------- Art / turntable area (top of card) ---------- */
+  .art-stage{
     position:relative;
+    aspect-ratio: 1 / 0.98;
+    padding:28px 24px 4px;
     display:flex;
     align-items:center;
     justify-content:center;
-    min-height:380px;
   }
   .platter-wrap{
     position:absolute;
-    right:6%;
+    right:5%;
     top:50%;
-    transform:translateY(-50%);
-    width:78%;
+    transform:translateY(-56%);
+    width:64%;
     aspect-ratio:1/1;
     z-index:1;
   }
@@ -74,7 +75,7 @@
       repeating-radial-gradient(circle at 50% 50%,
         var(--vinyl) 0px, var(--vinyl) 3px,
         var(--vinyl-light) 4px, var(--vinyl) 5px);
-    box-shadow: 0 20px 60px var(--shadow), inset 0 0 40px rgba(0,0,0,.6);
+    box-shadow: 0 16px 46px var(--shadow), inset 0 0 32px rgba(0,0,0,.6);
     position:relative;
     animation: spin 3.2s linear infinite;
     animation-play-state: paused;
@@ -101,24 +102,14 @@
   }
   .vinyl-label span{
     font-family:'Black Han Sans', sans-serif;
-    font-size:.68rem;
+    font-size:.62rem;
     line-height:1.25;
     color:var(--navy-deep);
     letter-spacing:.02em;
   }
-  .vinyl-label::after{
-    content:"";
-    position:absolute; width:8px; height:8px; border-radius:50%;
-    background:var(--navy-deep);
-  }
   @keyframes spin{ to{ transform:rotate(360deg); } }
 
-  .tonearm{
-    position:absolute;
-    inset:0;
-    z-index:2;
-    pointer-events:none;
-  }
+  .tonearm{ position:absolute; inset:0; z-index:2; pointer-events:none; }
   .tonearm .pivot{
     position:absolute; top:3%; right:1%;
     width:13%; aspect-ratio:1/1;
@@ -158,9 +149,9 @@
   .sleeve{
     position:relative;
     z-index:3;
-    width:72%;
+    width:68%;
     transform: rotate(-4deg);
-    filter: drop-shadow(0 30px 40px var(--shadow));
+    filter: drop-shadow(0 24px 34px var(--shadow));
   }
   .sleeve img{
     width:100%;
@@ -170,57 +161,54 @@
   }
   .stereo-tag{
     position:absolute;
-    top:-14px; left:-14px;
+    top:-12px; left:-10px;
     background:var(--cream);
     color:var(--navy-deep);
     font-family:'Space Mono', monospace;
-    font-size:.62rem;
+    font-size:.58rem;
     letter-spacing:.12em;
-    padding:4px 8px;
+    padding:4px 7px;
     border-radius:2px;
     transform:rotate(-6deg);
     box-shadow:0 4px 10px rgba(0,0,0,.4);
+    z-index:4;
   }
 
-  /* ---------- Player panel ---------- */
-  .panel{
-    position:relative;
-    background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-    border:1px solid rgba(216,179,116,.3);
-    border-radius:14px;
-    padding:34px 32px 26px;
-    backdrop-filter: blur(6px);
+  /* ---------- Info / player controls (directly attached below) ---------- */
+  .info-section{
+    padding:16px 26px 24px;
+    border-top:1px solid rgba(216,179,116,.22);
   }
   .badge{
-    position:absolute;
-    top:22px; right:24px;
+    display:inline-block;
     border:1px solid var(--gold);
     color:var(--gold-soft);
     font-family:'Space Mono', monospace;
-    font-size:.68rem;
-    letter-spacing:.18em;
-    padding:4px 10px;
+    font-size:.64rem;
+    letter-spacing:.16em;
+    padding:3px 9px;
     border-radius:2px;
+    margin-bottom:12px;
   }
   .kicker{
     font-family:'Space Mono', monospace;
-    font-size:.7rem;
-    letter-spacing:.14em;
+    font-size:.66rem;
+    letter-spacing:.12em;
     color:var(--peach);
-    margin:0 0 10px;
+    margin:0 0 8px;
   }
   .album-title{
     font-family:'Noto Sans KR', sans-serif;
     font-weight:300;
-    font-size:2.3rem;
+    font-size:1.7rem;
     line-height:1.3;
     letter-spacing:-.01em;
-    margin:0 0 6px;
+    margin:0 0 4px;
     color:var(--cream);
   }
   .album-sub{
-    margin:0 0 26px;
-    font-size:.82rem;
+    margin:0 0 18px;
+    font-size:.76rem;
     letter-spacing:.06em;
     color:rgba(244,236,216,.65);
     font-family:'Space Mono', monospace;
@@ -228,32 +216,32 @@
 
   .tracklist{
     list-style:none;
-    margin:0 0 24px;
+    margin:0 0 18px;
     padding:0;
     border-top:1px solid rgba(216,179,116,.25);
   }
   .track{
     display:flex;
     align-items:center;
-    gap:14px;
-    padding:13px 4px;
+    gap:12px;
+    padding:11px 4px;
     border-bottom:1px solid rgba(216,179,116,.16);
     cursor:pointer;
     transition: background .2s ease, padding-left .2s ease;
   }
-  .track:hover{ background:rgba(216,179,116,.07); padding-left:8px; }
-  .track.active{ background:rgba(232,138,99,.12); padding-left:8px; }
+  .track:hover{ background:rgba(216,179,116,.07); padding-left:6px; }
+  .track.active{ background:rgba(232,138,99,.12); padding-left:6px; }
   .track .num{
     font-family:'Black Han Sans', sans-serif;
     color:var(--gold);
-    font-size:1rem;
-    width:24px;
+    font-size:.92rem;
+    width:22px;
     flex-shrink:0;
   }
   .track.active .num{ color:var(--coral); }
   .track .info{ flex:1; min-width:0; }
   .track .name{
-    font-size:.98rem;
+    font-size:.92rem;
     color:var(--cream);
     white-space:nowrap;
     overflow:hidden;
@@ -261,12 +249,12 @@
   }
   .track .dur{
     font-family:'Space Mono', monospace;
-    font-size:.72rem;
+    font-size:.68rem;
     color:rgba(244,236,216,.5);
     flex-shrink:0;
   }
   .track .eq{
-    width:16px; height:14px; flex-shrink:0;
+    width:14px; height:13px; flex-shrink:0;
     display:flex; align-items:flex-end; gap:2px;
   }
   .track .eq i{
@@ -283,13 +271,13 @@
   .transport{
     display:flex;
     align-items:center;
-    gap:14px;
+    gap:12px;
   }
   .tbtn{
     background:none;
     border:1px solid rgba(216,179,116,.4);
     color:var(--cream);
-    width:38px; height:38px;
+    width:36px; height:36px;
     border-radius:50%;
     cursor:pointer;
     display:flex; align-items:center; justify-content:center;
@@ -299,7 +287,7 @@
   .tbtn:hover{ background:rgba(216,179,116,.15); }
   .tbtn:active{ transform:scale(.92); }
   #playBtn{
-    width:46px; height:46px;
+    width:44px; height:44px;
     background:linear-gradient(160deg, var(--peach), var(--coral));
     color:var(--navy-deep);
     border:none;
@@ -323,45 +311,41 @@
   .time-row{
     display:flex; justify-content:space-between;
     font-family:'Space Mono', monospace;
-    font-size:.68rem;
+    font-size:.66rem;
     color:rgba(244,236,216,.55);
   }
 
   .footer{
-    margin-top:24px;
-    padding-top:16px;
+    margin-top:20px;
+    padding-top:14px;
     border-top:1px solid rgba(216,179,116,.2);
     display:flex;
     align-items:center;
     justify-content:space-between;
     gap:12px;
   }
-  .barcode{
-    display:flex; gap:2px; height:22px; align-items:flex-end;
-  }
+  .barcode{ display:flex; gap:2px; height:20px; align-items:flex-end; }
   .barcode i{ width:2px; background:var(--cream); opacity:.7; }
   .footer-text{
     font-family:'Space Mono', monospace;
-    font-size:.62rem;
+    font-size:.6rem;
     letter-spacing:.08em;
     color:rgba(244,236,216,.55);
     text-align:right;
   }
 
-  @media (max-width: 860px){
-    .stage{ grid-template-columns:1fr; gap:22px; }
-    .scene{ min-height:280px; }
-    .sleeve{ width:66%; }
-    .album-title{ font-size:1.7rem; }
-    .badge{ position:static; display:inline-block; margin-bottom:16px; }
+  @media (max-width: 380px){
+    .album-title{ font-size:1.45rem; }
+    .info-section{ padding:14px 18px 20px; }
+    .art-stage{ padding:22px 16px 4px; }
   }
 </style>
 </head>
 <body>
 
-<div class="stage">
+<div class="player-card">
 
-  <div class="scene">
+  <div class="art-stage">
     <div class="platter-wrap">
       <div class="vinyl" id="vinyl">
         <div class="vinyl-label"><span>너를 알아볼<br>수 있게</span></div>
@@ -380,7 +364,7 @@
     </div>
   </div>
 
-  <div class="panel">
+  <div class="info-section">
     <div class="badge">MINI ALBUM</div>
     <p class="kicker">2026 학생생활지도 강화주간 · SPECIAL ALBUM</p>
     <h1 class="album-title">너를 알아볼 수 있게</h1>
@@ -415,14 +399,14 @@
 
     <div class="transport">
       <button class="tbtn" id="prevBtn" title="이전 곡" aria-label="이전 곡">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 10.5 6V6z"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 10.5 6V6z"/></svg>
       </button>
       <button class="tbtn" id="playBtn" title="재생/일시정지" aria-label="재생/일시정지">
-        <svg id="playIcon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        <svg id="pauseIcon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+        <svg id="playIcon" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        <svg id="pauseIcon" width="15" height="15" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
       </button>
       <button class="tbtn" id="nextBtn" title="다음 곡" aria-label="다음 곡">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 18h2V6h-2zM14.5 12 4 6v12z"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M16 18h2V6h-2zM14.5 12 4 6v12z"/></svg>
       </button>
       <div class="progress-area">
         <div class="progress-bar" id="progressBar">
@@ -540,7 +524,6 @@
   audio.addEventListener('ended', ()=>{
     const i = currentIndex >= tracks.length-1 ? 0 : currentIndex+1;
     if(i === 0){
-      // reached end of album
       loadTrack(0, false);
     } else {
       loadTrack(i, true);
@@ -554,7 +537,6 @@
     audio.currentTime = pct * audio.duration;
   });
 
-  // Preload durations for track list display without switching current src
   tracks.forEach((track)=>{
     const probe = new Audio();
     probe.preload = 'metadata';
@@ -564,13 +546,12 @@
     });
   });
 
-  // decorative barcode
   const barcode = document.getElementById('barcode');
-  for(let i=0;i<26;i++){
+  for(let i=0;i<24;i++){
     const bar = document.createElement('i');
     const w = Math.random() > .7 ? 3 : 1.5;
     bar.style.width = w + 'px';
-    bar.style.height = (Math.random()*10+12) + 'px';
+    bar.style.height = (Math.random()*9+11) + 'px';
     barcode.appendChild(bar);
   }
 </script>
