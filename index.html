@@ -25,7 +25,7 @@
     --shadow: rgba(0,0,0,.55);
   }
   *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;height:100%;}
+  html,body{margin:0;padding:0;}
   body{
     min-height:100vh;
     font-family:'Gowun Batang', serif;
@@ -37,7 +37,7 @@
     display:flex;
     align-items:center;
     justify-content:center;
-    padding:48px 20px;
+    padding:32px 20px;
     overflow-x:hidden;
   }
   .stage{
@@ -45,7 +45,7 @@
     max-width:1080px;
     display:grid;
     grid-template-columns: 1.05fr 1fr;
-    gap:56px;
+    gap:32px;
     align-items:center;
   }
 
@@ -55,7 +55,7 @@
     display:flex;
     align-items:center;
     justify-content:center;
-    min-height:460px;
+    min-height:380px;
   }
   .platter-wrap{
     position:absolute;
@@ -349,8 +349,8 @@
   }
 
   @media (max-width: 860px){
-    .stage{ grid-template-columns:1fr; gap:40px; }
-    .scene{ min-height:340px; }
+    .stage{ grid-template-columns:1fr; gap:22px; }
+    .scene{ min-height:280px; }
     .sleeve{ width:66%; }
     .album-title{ font-size:1.7rem; }
     .badge{ position:static; display:inline-block; margin-bottom:16px; }
@@ -577,4 +577,3 @@
 
 </body>
 </html>
-
