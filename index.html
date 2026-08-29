@@ -6,7 +6,7 @@
 <title>너를 알아볼 수 있게 — EONNAM HIGH SCHOOL SPECIAL ALBUM</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --navy-deep:#0f1830;
@@ -38,7 +38,6 @@
     overflow-x:hidden;
   }
 
-  /* ---------- One unified card ---------- */
   .player-card{
     width:100%;
     max-width:440px;
@@ -49,7 +48,7 @@
     box-shadow: 0 30px 70px rgba(0,0,0,.55);
   }
 
-  /* ---------- Art / turntable area (top of card) ---------- */
+  /* ---------- Art / turntable area ---------- */
   .art-stage{
     position:relative;
     aspect-ratio: 1 / 0.98;
@@ -101,11 +100,11 @@
     box-shadow: 0 4px 14px rgba(0,0,0,.5), inset 0 0 0 2px rgba(255,255,255,.15);
   }
   .vinyl-label span{
-    font-family:'Black Han Sans', sans-serif;
-    font-size:.62rem;
+    font-family:'Noto Sans KR', sans-serif;
+    font-weight:500;
+    font-size:.6rem;
     line-height:1.25;
     color:var(--navy-deep);
-    letter-spacing:.02em;
   }
   @keyframes spin{ to{ transform:rotate(360deg); } }
 
@@ -174,7 +173,40 @@
     z-index:4;
   }
 
-  /* ---------- Info / player controls (directly attached below) ---------- */
+  /* Clickable hotspots positioned directly over the printed track list in the artwork */
+  .hotspot{
+    position:absolute;
+    left:2%;
+    width:33%;
+    border-radius:5px;
+    cursor:pointer;
+    background:rgba(255,255,255,0);
+    transition: background .2s ease;
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    padding-right:4%;
+  }
+  .hotspot:hover{ background:rgba(255,255,255,.12); }
+  .hotspot.active{
+    background:rgba(232,138,99,.24);
+    box-shadow: inset 0 0 0 1px rgba(232,138,99,.55);
+  }
+  .hotspot .mini-eq{
+    display:flex; align-items:flex-end; gap:2px; height:12px;
+    opacity:0; transition:opacity .2s;
+  }
+  .hotspot.active .mini-eq{ opacity:1; }
+  .hotspot .mini-eq i{
+    width:2.5px; background:var(--peach); border-radius:1px;
+    animation: eq 0.9s ease-in-out infinite;
+  }
+  .hotspot .mini-eq i:nth-child(1){ height:40%; animation-delay:0s; }
+  .hotspot .mini-eq i:nth-child(2){ height:100%; animation-delay:.2s; }
+  .hotspot .mini-eq i:nth-child(3){ height:65%; animation-delay:.4s; }
+  @keyframes eq{ 0%,100%{ transform:scaleY(.4);} 50%{ transform:scaleY(1);} }
+
+  /* ---------- Info / player controls ---------- */
   .info-section{
     padding:16px 26px 24px;
     border-top:1px solid rgba(216,179,116,.22);
@@ -207,66 +239,36 @@
     color:var(--cream);
   }
   .album-sub{
-    margin:0 0 18px;
+    margin:0 0 20px;
     font-size:.76rem;
     letter-spacing:.06em;
     color:rgba(244,236,216,.65);
     font-family:'Space Mono', monospace;
   }
 
-  .tracklist{
-    list-style:none;
-    margin:0 0 18px;
-    padding:0;
-    border-top:1px solid rgba(216,179,116,.25);
-  }
-  .track{
+  .now-playing{
     display:flex;
-    align-items:center;
-    gap:12px;
-    padding:11px 4px;
-    border-bottom:1px solid rgba(216,179,116,.16);
-    cursor:pointer;
-    transition: background .2s ease, padding-left .2s ease;
+    align-items:baseline;
+    gap:10px;
+    padding:12px 0;
+    border-top:1px solid rgba(216,179,116,.25);
+    border-bottom:1px solid rgba(216,179,116,.25);
+    margin-bottom:18px;
   }
-  .track:hover{ background:rgba(216,179,116,.07); padding-left:6px; }
-  .track.active{ background:rgba(232,138,99,.12); padding-left:6px; }
-  .track .num{
-    font-family:'Black Han Sans', sans-serif;
-    color:var(--gold);
-    font-size:.92rem;
-    width:22px;
+  .np-label{
+    font-family:'Space Mono', monospace;
+    font-size:.62rem;
+    letter-spacing:.14em;
+    color:rgba(244,236,216,.5);
     flex-shrink:0;
   }
-  .track.active .num{ color:var(--coral); }
-  .track .info{ flex:1; min-width:0; }
-  .track .name{
-    font-size:.92rem;
+  .np-name{
+    font-size:1rem;
     color:var(--cream);
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
   }
-  .track .dur{
-    font-family:'Space Mono', monospace;
-    font-size:.68rem;
-    color:rgba(244,236,216,.5);
-    flex-shrink:0;
-  }
-  .track .eq{
-    width:14px; height:13px; flex-shrink:0;
-    display:flex; align-items:flex-end; gap:2px;
-  }
-  .track .eq i{
-    width:3px; background:var(--coral); border-radius:1px;
-    animation: eq 0.9s ease-in-out infinite;
-    opacity:0;
-  }
-  .track.active .eq i{ opacity:1; }
-  .track .eq i:nth-child(1){ height:40%; animation-delay:0s; }
-  .track .eq i:nth-child(2){ height:100%; animation-delay:.2s; }
-  .track .eq i:nth-child(3){ height:65%; animation-delay:.4s; }
-  @keyframes eq{ 0%,100%{ transform:scaleY(.4);} 50%{ transform:scaleY(1);} }
 
   .transport{
     display:flex;
@@ -360,7 +362,21 @@
     </div>
     <div class="sleeve">
       <div class="stereo-tag">STEREO · 2026</div>
-      <img src="jacket.png" alt="너를 알아볼 수 있게 앨범 재킷">
+      <img src="jacket.png" alt="너를 알아볼 수 있게 앨범 재킷 — 트랙 01부터 04까지 인쇄된 트랙리스트">
+
+      <!-- Clickable hotspots placed directly over the printed track list in the artwork -->
+      <div class="hotspot" data-src="track01.mp3" data-name="01. 너를 알아볼 수 있게" style="top:57.5%; height:12%;">
+        <span class="mini-eq"><i></i><i></i><i></i></span>
+      </div>
+      <div class="hotspot" data-src="track02.mp3" data-name="02. 3악 캠페인송" style="top:69.5%; height:11%;">
+        <span class="mini-eq"><i></i><i></i><i></i></span>
+      </div>
+      <div class="hotspot" data-src="track03.mp3" data-name="03. 3착 캠페인송" style="top:80.5%; height:10%;">
+        <span class="mini-eq"><i></i><i></i><i></i></span>
+      </div>
+      <div class="hotspot" data-src="track04.mp3" data-name="04. 졸업 안했다아이가" style="top:90.5%; height:9%;">
+        <span class="mini-eq"><i></i><i></i><i></i></span>
+      </div>
     </div>
   </div>
 
@@ -370,32 +386,10 @@
     <h1 class="album-title">너를 알아볼 수 있게</h1>
     <p class="album-sub">EONNAM HIGH SCHOOL</p>
 
-    <ul class="tracklist" id="tracklist">
-      <li class="track" data-src="track01.mp3">
-        <span class="num">01</span>
-        <span class="info"><span class="name">너를 알아볼 수 있게</span></span>
-        <span class="eq"><i></i><i></i><i></i></span>
-        <span class="dur">--:--</span>
-      </li>
-      <li class="track" data-src="track02.mp3">
-        <span class="num">02</span>
-        <span class="info"><span class="name">3악 캠페인송</span></span>
-        <span class="eq"><i></i><i></i><i></i></span>
-        <span class="dur">--:--</span>
-      </li>
-      <li class="track" data-src="track03.mp3">
-        <span class="num">03</span>
-        <span class="info"><span class="name">3착 캠페인송</span></span>
-        <span class="eq"><i></i><i></i><i></i></span>
-        <span class="dur">--:--</span>
-      </li>
-      <li class="track" data-src="track04.mp3">
-        <span class="num">04</span>
-        <span class="info"><span class="name">졸업 안했다아이가</span></span>
-        <span class="eq"><i></i><i></i><i></i></span>
-        <span class="dur">--:--</span>
-      </li>
-    </ul>
+    <div class="now-playing">
+      <span class="np-label">NOW PLAYING</span>
+      <span class="np-name" id="npName">재킷의 트랙 제목을 눌러보세요</span>
+    </div>
 
     <div class="transport">
       <button class="tbtn" id="prevBtn" title="이전 곡" aria-label="이전 곡">
@@ -430,7 +424,7 @@
 <audio id="audio" preload="metadata"></audio>
 
 <script>
-  const tracks = Array.from(document.querySelectorAll('.track'));
+  const hotspots = Array.from(document.querySelectorAll('.hotspot'));
   const audio = document.getElementById('audio');
   const vinyl = document.getElementById('vinyl');
   const tonearm = document.getElementById('tonearm');
@@ -441,6 +435,7 @@
   const progressFill = document.getElementById('progressFill');
   const curTimeEl = document.getElementById('curTime');
   const durTimeEl = document.getElementById('durTime');
+  const npName = document.getElementById('npName');
 
   let currentIndex = -1;
 
@@ -451,14 +446,15 @@
     return `${m}:${s}`;
   }
 
-  function setActiveTrack(index){
-    tracks.forEach((t,i)=> t.classList.toggle('active', i===index));
+  function setActive(index){
+    hotspots.forEach((h,i)=> h.classList.toggle('active', i===index));
   }
 
   function loadTrack(index, autoplay){
     currentIndex = index;
-    audio.src = tracks[index].dataset.src;
-    setActiveTrack(index);
+    audio.src = hotspots[index].dataset.src;
+    npName.textContent = hotspots[index].dataset.name;
+    setActive(index);
     if(autoplay){
       audio.play().catch(()=>{});
     }
@@ -476,8 +472,8 @@
     }
   }
 
-  tracks.forEach((track, i)=>{
-    track.addEventListener('click', ()=>{
+  hotspots.forEach((spot, i)=>{
+    spot.addEventListener('click', ()=>{
       if(i === currentIndex){
         playPause();
       } else {
@@ -490,11 +486,11 @@
   vinyl.addEventListener('click', playPause);
 
   document.getElementById('prevBtn').addEventListener('click', ()=>{
-    const i = currentIndex <= 0 ? tracks.length-1 : currentIndex-1;
+    const i = currentIndex <= 0 ? hotspots.length-1 : currentIndex-1;
     loadTrack(i, true);
   });
   document.getElementById('nextBtn').addEventListener('click', ()=>{
-    const i = currentIndex >= tracks.length-1 ? 0 : currentIndex+1;
+    const i = currentIndex >= hotspots.length-1 ? 0 : currentIndex+1;
     loadTrack(i, true);
   });
 
@@ -517,12 +513,9 @@
   });
   audio.addEventListener('loadedmetadata', ()=>{
     durTimeEl.textContent = fmtTime(audio.duration);
-    if(currentIndex > -1){
-      tracks[currentIndex].querySelector('.dur').textContent = fmtTime(audio.duration);
-    }
   });
   audio.addEventListener('ended', ()=>{
-    const i = currentIndex >= tracks.length-1 ? 0 : currentIndex+1;
+    const i = currentIndex >= hotspots.length-1 ? 0 : currentIndex+1;
     if(i === 0){
       loadTrack(0, false);
     } else {
@@ -535,15 +528,6 @@
     const rect = progressBar.getBoundingClientRect();
     const pct = (e.clientX - rect.left) / rect.width;
     audio.currentTime = pct * audio.duration;
-  });
-
-  tracks.forEach((track)=>{
-    const probe = new Audio();
-    probe.preload = 'metadata';
-    probe.src = track.dataset.src;
-    probe.addEventListener('loadedmetadata', ()=>{
-      track.querySelector('.dur').textContent = fmtTime(probe.duration);
-    });
   });
 
   const barcode = document.getElementById('barcode');
