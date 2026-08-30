@@ -6,7 +6,7 @@
 <title>너를 알아볼 수 있게 — EONNAM HIGH SCHOOL SPECIAL ALBUM</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --navy-deep:#0a1224;
@@ -24,116 +24,111 @@
     display:flex;
     align-items:center;
     justify-content:center;
-    padding:16px;
+    padding:0;
     overflow-x:hidden;
   }
 
   .jacket-wrap{
     position:relative;
-    width:min(94vw, 94vh);
+    width:100vw;
     aspect-ratio:1/1;
   }
   .jacket-img{
     width:100%;
     height:100%;
     display:block;
-    border-radius:6px;
-    box-shadow:0 40px 100px rgba(0,0,0,.65);
   }
-  .stereo-tag{
+
+  /* Now-playing equalizer bars, sitting just under the '게' in the main title */
+  .title-eq{
     position:absolute;
-    top:-2%; left:-2.5%;
+    left:73%; top:31.5%;
+    transform:translate(-50%,-50%);
+    display:flex;
+    align-items:flex-end;
+    gap:.9vmin;
+    height:4.2vmin;
+    z-index:6;
+    opacity:0;
+    transition:opacity .25s ease;
+    pointer-events:none;
+  }
+  .title-eq.active{ opacity:1; }
+  .title-eq i{
+    width:1vmin;
     background:var(--cream);
-    color:var(--navy-deep);
-    font-family:'Courier New', monospace;
-    font-weight:700;
-    font-size:1.3vmin;
-    letter-spacing:.1em;
-    padding:.5vmin 1vmin;
-    border-radius:3px;
-    transform:rotate(-6deg);
-    box-shadow:0 6px 14px rgba(0,0,0,.4);
+    border-radius:2px;
+    animation: titlebar 0.9s ease-in-out infinite;
+    box-shadow:0 0 8px rgba(244,236,216,.7);
+  }
+  .title-eq i:nth-child(1){ height:38%; animation-delay:0s; }
+  .title-eq i:nth-child(2){ height:100%; animation-delay:.15s; }
+  .title-eq i:nth-child(3){ height:58%; animation-delay:.3s; }
+  .title-eq i:nth-child(4){ height:82%; animation-delay:.45s; }
+  @keyframes titlebar{ 0%,100%{ transform:scaleY(.35);} 50%{ transform:scaleY(1);} }
+
+  /* Wide invisible click zone over each printed track line (number + title) */
+  .track-row{
+    position:absolute;
+    background:transparent;
+    border:none;
+    padding:0;
+    margin:0;
+    cursor:pointer;
     z-index:5;
-    white-space:nowrap;
+    -webkit-tap-highlight-color:transparent;
   }
 
-  /* Big hero play button next to the main title */
-  .hero-play{
-    position:absolute;
-    top:35%; left:88%;
-    transform:translate(-50%,-50%);
-    width:16%;
-    aspect-ratio:1/1;
-    border-radius:50%;
-    background:rgba(10,18,36,.6);
-    backdrop-filter:blur(3px);
-    border:.4vmin solid var(--gold);
-    color:var(--cream);
-    display:flex; align-items:center; justify-content:center;
-    cursor:pointer;
-    box-shadow:0 10px 26px rgba(0,0,0,.5);
-    transition: background .2s, transform .15s;
-    z-index:6;
-  }
-  .hero-play:hover{ background:rgba(232,138,99,.55); }
-  .hero-play:active{ transform:translate(-50%,-50%) scale(.93); }
-  .hero-play svg{ width:44%; height:44%; }
-  .hero-play.playing{ animation: pulse-ring 1.7s ease-out infinite; }
-  @keyframes pulse-ring{
-    0%{ box-shadow:0 0 0 0 rgba(216,179,116,.6), 0 10px 26px rgba(0,0,0,.5); }
-    100%{ box-shadow:0 0 0 22px rgba(216,179,116,0), 0 10px 26px rgba(0,0,0,.5); }
-  }
-
-  /* Track buttons placed precisely beside the last character of each printed title */
-  .track-btn{
+  /* Visible square play icon, sized to the printed text, riding inside the row */
+  .track-icon{
     position:absolute;
     transform:translate(-50%,-50%);
-    width:7.6%;
-    aspect-ratio:1/1;
-    border-radius:50%;
-    background:rgba(10,18,36,.62);
-    border:.26vmin solid var(--gold-soft);
+    width:6vmin;
+    height:6vmin;
+    border-radius:1.2vmin;
+    background:rgba(10,18,36,.65);
+    border:.3vmin solid var(--gold-soft);
     color:var(--cream);
     display:flex; align-items:center; justify-content:center;
-    cursor:pointer;
-    box-shadow:0 6px 16px rgba(0,0,0,.45);
+    pointer-events:none;
     transition: background .2s, transform .15s;
-    z-index:6;
+    box-shadow:0 4px 12px rgba(0,0,0,.4);
   }
-  .track-btn:hover{ background:rgba(232,138,99,.55); }
-  .track-btn.active{ background:rgba(232,138,99,.8); border-color:var(--coral); }
-  .track-btn svg{ width:42%; height:42%; }
-  .track-btn:active{ transform:translate(-50%,-50%) scale(.9); }
+  .track-row:hover .track-icon{ background:rgba(232,138,99,.55); }
+  .track-row.active .track-icon{ background:rgba(232,138,99,.82); border-color:var(--coral); }
+  .track-row:active .track-icon{ transform:translate(-50%,-50%) scale(.9); }
+  .track-icon svg{ width:50%; height:50%; }
 
-  /* Now Playing + transport controls, combined into one widget, bottom-right */
+  /* Now Playing + transport controls, combined into one widget, bottom-right, enlarged */
   .now-playing-widget{
     position:absolute;
-    right:3%; bottom:3.5%;
-    width:44%;
-    background:rgba(10,18,36,.74);
+    right:3%; bottom:3.2%;
+    width:54%;
+    background:rgba(10,18,36,.76);
     backdrop-filter:blur(5px);
-    border:1px solid rgba(216,179,116,.38);
-    border-radius:1.4vmin;
-    padding:2% 3%;
+    border:1px solid rgba(216,179,116,.4);
+    border-radius:1.8vmin;
+    padding:2.6% 3.4%;
     z-index:7;
   }
   .np-row{
     display:flex;
     align-items:baseline;
-    gap:1.4%;
-    margin-bottom:1.6%;
+    gap:1.6%;
+    margin-bottom:2.2%;
     white-space:nowrap;
   }
   .np-label{
     font-family:'Space Mono', monospace;
-    font-size:1.15vmin;
+    font-size:1.5vmin;
     letter-spacing:.14em;
     color:var(--peach);
     flex-shrink:0;
   }
   .np-name{
     font-family:'Noto Sans KR', sans-serif;
-    font-size:1.7vmin;
+    font-weight:500;
+    font-size:2.3vmin;
     color:var(--cream);
     white-space:nowrap;
     overflow:hidden;
@@ -142,13 +137,13 @@
   .transport-row{
     display:flex;
     align-items:center;
-    gap:2.2%;
+    gap:2.6%;
   }
   .tbtn-mini{
-    width:9%;
+    width:13.5%;
     aspect-ratio:1/1;
     border-radius:50%;
-    border:.18vmin solid rgba(216,179,116,.55);
+    border:.24vmin solid rgba(216,179,116,.6);
     background:transparent;
     color:var(--cream);
     display:flex; align-items:center; justify-content:center;
@@ -156,21 +151,25 @@
     flex-shrink:0;
     transition: background .2s, transform .15s;
   }
-  .tbtn-mini:hover{ background:rgba(216,179,116,.18); }
+  .tbtn-mini:hover{ background:rgba(216,179,116,.2); }
   .tbtn-mini:active{ transform:scale(.9); }
   .tbtn-mini svg{ width:48%; height:48%; }
   .play-mini{
-    width:13%;
+    width:16%;
     background:linear-gradient(160deg, var(--peach), var(--coral));
     border:none;
     color:var(--navy-deep);
   }
+  .play-mini:hover{
+    background:linear-gradient(160deg, var(--peach), var(--coral));
+    filter:brightness(1.12);
+  }
   .progress-wrap{ flex:1; min-width:0; }
   .progress-track{
     width:100%;
-    height:.65vmin;
+    height:.9vmin;
     background:rgba(244,236,216,.25);
-    border-radius:4px;
+    border-radius:5px;
     position:relative;
     cursor:pointer;
   }
@@ -178,21 +177,18 @@
     position:absolute; left:0; top:0; height:100%;
     width:0%;
     background:linear-gradient(90deg, var(--gold), var(--coral));
-    border-radius:4px;
+    border-radius:5px;
   }
   .time-row-mini{
     display:flex; justify-content:space-between;
-    margin-top:.9vmin;
+    margin-top:1.1vmin;
     font-family:'Space Mono', monospace;
-    font-size:1vmin;
-    color:rgba(244,236,216,.6);
+    font-size:1.35vmin;
+    color:rgba(244,236,216,.65);
   }
 
   @media (max-width: 480px){
-    .now-playing-widget{ width:48%; padding:1.8% 2.6%; }
-    .np-label{ font-size:1.35vmin; }
-    .np-name{ font-size:2vmin; }
-    .time-row-mini{ font-size:1.2vmin; }
+    .now-playing-widget{ width:60%; }
   }
 </style>
 </head>
@@ -200,28 +196,41 @@
 
 <div class="jacket-wrap">
   <img class="jacket-img" src="jacket.png" alt="너를 알아볼 수 있게 앨범 재킷">
-  <div class="stereo-tag">STEREO · 2026</div>
 
-  <button class="hero-play" id="heroPlay" aria-label="재생/일시정지">
-    <svg class="ic-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-    <svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+  <div class="title-eq" id="titleEq">
+    <i></i><i></i><i></i><i></i>
+  </div>
+
+  <!-- Row 1 : whole title area is clickable, square icon sits precisely after the last character -->
+  <button class="track-row" data-src="track01.mp3" data-name="01. 너를 알아볼 수 있게" style="left:2%; top:60.5%; width:34%; height:6.5%;" aria-label="01. 너를 알아볼 수 있게 재생">
+    <span class="track-icon" style="left:90.0%; top:52.3%;">
+      <svg class="ic-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+      <svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+    </span>
   </button>
 
-  <button class="track-btn" data-src="track01.mp3" data-name="01. 너를 알아볼 수 있게" style="left:32.6%; top:63.9%;" aria-label="01. 너를 알아볼 수 있게 재생">
-    <svg class="ic-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-    <svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+  <!-- Row 2 -->
+  <button class="track-row" data-src="track02.mp3" data-name="02. 3악 캠페인송" style="left:2%; top:71.0%; width:34%; height:6.0%;" aria-label="02. 3악 캠페인송 재생">
+    <span class="track-icon" style="left:73.8%; top:55.0%;">
+      <svg class="ic-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+      <svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+    </span>
   </button>
-  <button class="track-btn" data-src="track02.mp3" data-name="02. 3악 캠페인송" style="left:27.1%; top:74.3%;" aria-label="02. 3악 캠페인송 재생">
-    <svg class="ic-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-    <svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+
+  <!-- Row 3 -->
+  <button class="track-row" data-src="track03.mp3" data-name="03. 3착 캠페인송" style="left:2%; top:80.0%; width:34%; height:6.0%;" aria-label="03. 3착 캠페인송 재생">
+    <span class="track-icon" style="left:76.5%; top:51.7%;">
+      <svg class="ic-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+      <svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+    </span>
   </button>
-  <button class="track-btn" data-src="track03.mp3" data-name="03. 3착 캠페인송" style="left:28.0%; top:83.1%;" aria-label="03. 3착 캠페인송 재생">
-    <svg class="ic-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-    <svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
-  </button>
-  <button class="track-btn" data-src="track04.mp3" data-name="04. 졸업 안했다아이가" style="left:33.5%; top:91.8%;" aria-label="04. 졸업 안했다아이가 재생">
-    <svg class="ic-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-    <svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+
+  <!-- Row 4 -->
+  <button class="track-row" data-src="track04.mp3" data-name="04. 졸업 안했다아이가" style="left:2%; top:88.7%; width:34%; height:7.0%;" aria-label="04. 졸업 안했다아이가 재생">
+    <span class="track-icon" style="left:92.6%; top:44.3%;">
+      <svg class="ic-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+      <svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+    </span>
   </button>
 
   <div class="now-playing-widget">
@@ -256,9 +265,9 @@
 <audio id="audio" preload="metadata"></audio>
 
 <script>
-  const trackBtns = Array.from(document.querySelectorAll('.track-btn'));
-  const heroPlay = document.getElementById('heroPlay');
+  const trackRows = Array.from(document.querySelectorAll('.track-row'));
   const miniPlay = document.getElementById('miniPlay');
+  const titleEq = document.getElementById('titleEq');
   const npName = document.getElementById('npName');
   const audio = document.getElementById('audio');
   const progressBar = document.getElementById('progressBar');
@@ -275,28 +284,39 @@
     return `${m}:${s}`;
   }
 
-  function setIcon(btn, playing){
-    btn.querySelector('.ic-play').style.display = playing ? 'none' : '';
-    btn.querySelector('.ic-pause').style.display = playing ? '' : 'none';
+  function setIcon(el, playing){
+    el.querySelector('.ic-play').style.display = playing ? 'none' : '';
+    el.querySelector('.ic-pause').style.display = playing ? '' : 'none';
   }
 
   function refreshIcons(){
     const playing = currentIndex !== -1 && !audio.paused;
-    trackBtns.forEach((b,i)=>{
+    trackRows.forEach((b,i)=>{
       const isActive = i === currentIndex;
       b.classList.toggle('active', isActive);
       setIcon(b, isActive && playing);
     });
-    setIcon(heroPlay, playing);
     setIcon(miniPlay, playing);
-    heroPlay.classList.toggle('playing', playing);
+    titleEq.classList.toggle('active', playing);
+  }
+
+  // Safe play helper: always resolves the icon state, even if the browser
+  // rejects/interrupts a play() call (e.g. rapid repeated clicks).
+  function safePlay(){
+    const p = audio.play();
+    if(p !== undefined){
+      p.then(refreshIcons).catch(refreshIcons);
+    }
   }
 
   function loadTrack(index, autoplay){
     currentIndex = index;
-    audio.src = trackBtns[index].dataset.src;
-    npName.textContent = trackBtns[index].dataset.name;
-    if(autoplay){ audio.play().catch(()=>{}); }
+    audio.src = trackRows[index].dataset.src;
+    npName.textContent = trackRows[index].dataset.name;
+    progressFill.style.width = '0%';
+    curTimeEl.textContent = '0:00';
+    durTimeEl.textContent = '0:00';
+    if(autoplay){ safePlay(); }
     refreshIcons();
   }
 
@@ -305,31 +325,35 @@
       loadTrack(0, true);
       return;
     }
-    if(audio.paused){ audio.play().catch(()=>{}); }
-    else { audio.pause(); }
+    if(audio.paused){ safePlay(); }
+    else { audio.pause(); refreshIcons(); }
   }
 
-  trackBtns.forEach((btn, i)=>{
-    btn.addEventListener('click', ()=>{
+  trackRows.forEach((btn, i)=>{
+    btn.addEventListener('click', (e)=>{
+      e.preventDefault();
       if(i === currentIndex){ playPause(); }
       else { loadTrack(i, true); }
     });
   });
 
-  heroPlay.addEventListener('click', playPause);
-  miniPlay.addEventListener('click', playPause);
+  miniPlay.addEventListener('click', (e)=>{ e.preventDefault(); playPause(); });
 
-  document.getElementById('prevBtn').addEventListener('click', ()=>{
-    const i = currentIndex <= 0 ? trackBtns.length-1 : currentIndex-1;
+  document.getElementById('prevBtn').addEventListener('click', (e)=>{
+    e.preventDefault();
+    const i = currentIndex <= 0 ? trackRows.length-1 : currentIndex-1;
     loadTrack(i, true);
   });
-  document.getElementById('nextBtn').addEventListener('click', ()=>{
-    const i = currentIndex >= trackBtns.length-1 ? 0 : currentIndex+1;
+  document.getElementById('nextBtn').addEventListener('click', (e)=>{
+    e.preventDefault();
+    const i = currentIndex >= trackRows.length-1 ? 0 : currentIndex+1;
     loadTrack(i, true);
   });
 
   audio.addEventListener('play', refreshIcons);
   audio.addEventListener('pause', refreshIcons);
+  audio.addEventListener('error', refreshIcons);
+  audio.addEventListener('stalled', refreshIcons);
   audio.addEventListener('timeupdate', ()=>{
     const pct = audio.duration ? (audio.currentTime/audio.duration)*100 : 0;
     progressFill.style.width = pct + '%';
@@ -339,9 +363,8 @@
     durTimeEl.textContent = fmtTime(audio.duration);
   });
   audio.addEventListener('ended', ()=>{
-    const i = currentIndex >= trackBtns.length-1 ? 0 : currentIndex+1;
-    if(i === 0){ loadTrack(0, false); }
-    else { loadTrack(i, true); }
+    const i = currentIndex >= trackRows.length-1 ? 0 : currentIndex+1;
+    loadTrack(i, i !== 0 || trackRows.length === 1);
   });
 
   progressBar.addEventListener('click', (e)=>{
